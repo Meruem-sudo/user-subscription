@@ -1,4 +1,4 @@
-package com.example.usersubscription.controller;
+package com.example.usersubscription.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +22,12 @@ public class PageController {
     public String register()
     {
         return "register";
+    }
+
+    @GetMapping("/login")
+    public String login()
+    {
+        return "login";
     }
 
 
