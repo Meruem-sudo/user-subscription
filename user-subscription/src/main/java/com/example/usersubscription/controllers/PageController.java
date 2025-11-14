@@ -1,5 +1,6 @@
 package com.example.usersubscription.controllers;
 
+import com.example.usersubscription.entities.Subscription;
 import com.example.usersubscription.entities.User;
 import com.example.usersubscription.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
@@ -42,6 +44,7 @@ public class PageController {
 
         return "login";
     }
+
     @PostMapping("/login")
     public String login(User u, HttpServletRequest request)
     {
@@ -49,7 +52,6 @@ public class PageController {
         logging_user = userService.login(u);
         if (logging_user != null) {
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(logging_user,null,new ArrayList<>());
-            System.out.println(authToken);
             SecurityContextHolder.getContext().setAuthentication(authToken);
             request.getSession().setAttribute(
                     "SPRING_SECURITY_CONTEXT",
@@ -62,4 +64,15 @@ public class PageController {
     }
 
 
+    @GetMapping("/new-subscription")
+    public String newSubscription()
+    {
+        return "new_subscription";
+    }
+    @PostMapping("/add-subscription")
+    public String addSubscription(@ModelAttribute Subscription subscription)
+    {
+        System.out.println(subscription);
+        return "new_subscription";
+    }
 }

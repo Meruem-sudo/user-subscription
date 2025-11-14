@@ -12,8 +12,12 @@ public class Subscription {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "price", nullable = false)
+    private Double price;
 
     @Enumerated(EnumType.STRING)
     @Column(name="frequency", nullable = false)
@@ -41,6 +45,22 @@ public class Subscription {
 
     public String getName() {
         return name;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setName(String name) {
@@ -71,5 +91,15 @@ public class Subscription {
         this.endDate = endDate;
     }
 
-
+    @Override
+    public String toString() {
+        return "Subscription{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", frequency=" + frequency +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                '}';
+    }
 }

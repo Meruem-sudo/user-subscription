@@ -23,13 +23,13 @@ public class UserService implements UserDetailsService {
         try {
             User u;
             u = userRepo.findByEmail(user.getEmail());
-            System.out.println(u);
+
             if (u!= null)
             {
 
                 if (bCryptPasswordEncoder.matches(user.getPassword(),u.getPassword()))
                 {
-                    System.out.println(u);
+
                     return u;
                 }
                 else throw new UsernameNotFoundException("User not found");

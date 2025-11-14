@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuovo Abbonamento</title>
+
+    <link rel="stylesheet" href="/css/new_subscription.css">
+</head>
+
+<body>
+
+<header>
+    <h1>Nuovo abbonamento</h1>
+</header>
+
+<div class="container">
+
+    <form action="/add-subscription" method="post">
+
+        <div class="form-group">
+            <label for="name">Nome abbonamento</label>
+            <input type="text" id="name" name="name" required placeholder="Es. Netflix, Spotify, Disney+">
+        </div>
+
+        <div class="form-group">
+            <label for="price">Prezzo (€)</label>
+            <input type="number" id="price" name="price" required step="0.01" min="0">
+        </div>
+
+        <div class="form-group">
+            <label for="frequency">Frequenza</label>
+            <select id="frequency" name="frequency" required>
+                <option value="">Seleziona...</option>
+                <option value="WEEKLY">Settimanale</option>
+                <option value="MONTHLY">Mensile</option>
+                <option value="YEARLY">Annuale</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="startDate">Data inizio</label>
+            <input type="date" id="startDate" name="startDate" required>
+        </div>
+
+        <div class="form-group">
+            <label for="endDate">Data fine</label>
+            <input type="date" id="endDate" name="endDate">
+        </div>
+
+        <button class="save-btn" type="submit">Salva abbonamento</button>
+    </form>
+
+</div>
+
+
+<!-- FOOTBAR -->
+<div class="footbar">
+
+    <a class="footbar-btn" href="/home">
+        <div class="icon">📅</div>
+        I miei abbonamenti
+    </a>
+
+    <a class="footbar-btn selected" href="/nuovo-abbonamento">
+        <div class="icon">➕</div>
+        Nuovo
+    </a>
+
+</div>
+
+</body>
+</html>
