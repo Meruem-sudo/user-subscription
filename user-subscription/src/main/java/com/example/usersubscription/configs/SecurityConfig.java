@@ -26,11 +26,11 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/register").permitAll()  // <-- accesso libero
+                        .requestMatchers("/register","/api/register","/login","/api/login").permitAll()  // <-- accesso libero
                         .anyRequest().authenticated()                // tutto il resto protetto
                 )
-                .httpBasic(Customizer.withDefaults())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .formLogin(form ->form.disable())
+                .httpBasic(httpBasic->httpBasic.disable())
                 .build();
     }
 

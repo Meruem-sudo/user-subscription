@@ -19,4 +19,9 @@ public class UserController {
     {
         return userService.register(user);
     }
+    @PostMapping("/api/login")
+    public User login(@RequestBody User user)
+    {
+        return userService.login(user);
+    }
 }

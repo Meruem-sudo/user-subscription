@@ -18,6 +18,33 @@ public class UserService implements UserDetailsService {
 
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
 
+    public User login(User user)
+    {
+        try {
+            User u;
+            u = userRepo.findByEmail(user.getEmail());
+            System.out.println(u);
+            if (u!= null)
+            {
+
+                if (bCryptPasswordEncoder.matches(user.getPassword(),u.getPassword()))
+                {
+                    System.out.println(u);
+                    return u;
+                }
+                else throw new UsernameNotFoundException("User not found");
+            }
+            else throw new UsernameNotFoundException("User not found");
+
+        }
+        catch (UsernameNotFoundException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return null;
+
+    }
+
 
     public User register(User user)
     {
