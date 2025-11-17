@@ -2,23 +2,30 @@ package com.example.usersubscription.controllers;
 
 import com.example.usersubscription.entities.Subscription;
 import com.example.usersubscription.entities.User;
+import com.example.usersubscription.services.SubscriptionService;
 import com.example.usersubscription.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class PageController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private SubscriptionService subscriptionService;
 
     @GetMapping("/")
     public String root()
@@ -27,8 +34,11 @@ public class PageController {
     }
 
     @GetMapping("/home")
-    public String home()
+    public String home(Model model, Authentication authentication)
     {
+        User user = (User) authentication.getPrincipal();
+        List<Subscription> list = subscriptionService.getAllSubscriptions(user);
+        model.addAttribute("subscriptions" ,list);
         return "home";
     }
 
@@ -70,9 +80,11 @@ public class PageController {
         return "new_subscription";
     }
     @PostMapping("/add-subscription")
-    public String addSubscription(@ModelAttribute Subscription subscription)
+    public String addSubscription(@ModelAttribute Subscription subscription, Authentication authentication)
     {
-        System.out.println(subscription);
+        User user = (User) authentication.getPrincipal();
+        subscription.setUser(user);
+        subscriptionService.addSubscription(subscription);
         return "new_subscription";
     }
 }

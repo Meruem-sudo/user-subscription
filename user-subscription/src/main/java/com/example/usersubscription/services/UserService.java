@@ -1,7 +1,9 @@
 package com.example.usersubscription.services;
 
+import com.example.usersubscription.entities.Subscription;
 import com.example.usersubscription.entities.User;
 import com.example.usersubscription.entities.UserPrincipal;
+import com.example.usersubscription.repositories.SubscriptionRepo;
 import com.example.usersubscription.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,11 +12,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private SubscriptionRepo subscriptionRepo;
+
 
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
 
@@ -63,4 +71,6 @@ public class UserService implements UserDetailsService {
         }
         return new UserPrincipal(user);
     }
+
+
 }
