@@ -6,6 +6,8 @@ import com.example.usersubscription.entities.UserPrincipal;
 import com.example.usersubscription.repositories.SubscriptionRepo;
 import com.example.usersubscription.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -57,7 +59,16 @@ public class UserService implements UserDetailsService {
     public User register(User user)
     {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        return userRepo.save(user);
+        try {
+            User u = userRepo.save(user);
+            System.out.println(u);
+            return u;
+        }catch (DataIntegrityViolationException e)
+        {
+            System.out.println("Email already taken");
+            throw new DuplicateKeyException("Email already taken");
+        }
+
     }
 
     @Override

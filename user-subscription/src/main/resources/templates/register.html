@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="it">
+<html lang="it" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,13 +17,13 @@
 
                     <form action="/register" method="post">
                         <div class="mb-3">
-                            <label for="name" class="form-label">Nome</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <label for="firstName" class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="surname" class="form-label">Cognome</label>
-                            <input type="text" class="form-control" id="surname" name="surname" required>
+                            <label for="lastName" class="form-label">Cognome</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName" required>
                         </div>
 
                         <div class="mb-3">
@@ -40,6 +40,10 @@
                             <button type="submit" class="btn btn-primary">Registrati</button>
                         </div>
                     </form>
+
+                    <div th:if="${error}" class="error">
+                        <p th:text="${error}"></p>
+                    </div>
 
                 </div>
             </div>

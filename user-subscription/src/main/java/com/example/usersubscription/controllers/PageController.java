@@ -6,6 +6,7 @@ import com.example.usersubscription.services.SubscriptionService;
 import com.example.usersubscription.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -46,6 +47,18 @@ public class PageController {
     public String register()
     {
         return "register";
+    }
+
+    @PostMapping("/register")
+    public String addUser(@ModelAttribute User user, Model model)
+    {
+        try {
+            userService.register(user);
+            return "redirect:/login";
+        } catch (DuplicateKeyException e) {
+            model.addAttribute("error", "Email già registrata");
+            return "register";
+        }
     }
 
     @GetMapping("/login")
