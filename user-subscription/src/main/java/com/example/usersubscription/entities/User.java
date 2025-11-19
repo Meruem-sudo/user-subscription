@@ -2,9 +2,10 @@ package com.example.usersubscription.entities;
 
 
 import jakarta.persistence.*;
+import lombok.Builder;
 
 import java.util.List;
-
+@Builder
 @Entity
 @Table(name = "users")
 public class User {
