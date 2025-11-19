@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
+import java.util.Optional;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -76,6 +77,61 @@ public class UserRepositoryTest {
         User user2 = userRepo.findById(user.getId()).get();
 
         Assertions.assertThat(user2).isNotNull();
+
+    }
+
+    @Test
+    public void UserRepository_FindByEmail_ReturnsUser()
+    {
+        User user = User.builder()
+                .firstName("Mario")
+                .lastName("Bianchi")
+                .email("MarioBianchi@gmail.com").password("Prova123").build();
+
+        userRepo.save(user);
+
+        User user2 = userRepo.findByEmail(user.getEmail());
+
+        Assertions.assertThat(user2).isNotNull();
+    }
+
+
+    @Test
+    public void UserRepository_UpdateUser_ReturnsUser()
+    {
+        User user = User.builder()
+                .firstName("Mario")
+                .lastName("Bianchi")
+                .email("MarioBianchi@gmail.com").password("Prova123").build();
+
+        userRepo.save(user);
+
+        User userSaved = userRepo.findById(user.getId()).get();
+
+        userSaved.setFirstName("Neri");
+        userSaved.setPassword("123456");
+
+        User userUpdated = userRepo.save(userSaved);
+
+        Assertions.assertThat(userUpdated.getFirstName()).isNotNull();
+        Assertions.assertThat(userUpdated.getPassword()).isNotNull();
+    }
+
+    @Test
+    public void UserRepository_UserDelete_ReturnsUserIsEmpty()
+    {
+        User user = User.builder()
+                .firstName("Mario")
+                .lastName("Bianchi")
+                .email("MarioBianchi@gmail.com").password("Prova123").build();
+
+        userRepo.save(user);
+
+        userRepo.deleteById(user.getId());
+        Optional<User> userReturn = userRepo.findById(user.getId());
+
+
+        Assertions.assertThat(userReturn).isEmpty();
 
     }
 
