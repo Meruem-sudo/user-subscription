@@ -1,10 +1,12 @@
 package com.example.usersubscription.entities;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
+@Builder
 @Entity
 @Table(name = "subscriptions")
 public class Subscription {
