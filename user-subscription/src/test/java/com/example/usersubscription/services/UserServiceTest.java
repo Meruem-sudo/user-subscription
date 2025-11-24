@@ -38,6 +38,37 @@ public class UserServiceTest {
 
 
     }
+    @Test
+    public void shouldEncodePassword_andReturnUser_whenRegistrationIsValid() {
+        // Arrange
+        User user = User.builder()
+                .firstName("Mario")
+                .lastName("Bianchi")
+                .email("MarioBianchi@gmail.com")
+                .password("Prova123")
+                .build();
+
+
+        User savedUser = User.builder()
+                .firstName("Mario")
+                .lastName("Bianchi")
+                .email("MarioBianchi@gmail.com")
+                .password("encryptedPassword123")
+                .build();
+
+        when(userRepo.save(Mockito.any(User.class))).thenReturn(savedUser);
+
+        // Act
+        User result = userService.register(user);
+
+        // Assert
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result.getPassword())
+                .isEqualTo("encryptedPassword123");
+
+        // Verifica che il service abbia chiamato la repository
+        verify(userRepo, times(1)).save(Mockito.any(User.class));
+    }
 
 
 

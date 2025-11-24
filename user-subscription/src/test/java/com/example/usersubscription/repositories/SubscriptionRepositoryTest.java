@@ -31,7 +31,7 @@ public class SubscriptionRepositoryTest {
 
 
     @Test
-    public void SubscriptionRepository_SaveAll_ReturnsSavedSubscription()
+    public void shouldReturnSubscriptions_whenDataIsValid()
     {
         User user = User.builder()
                 .firstName("Mario")
@@ -53,7 +53,7 @@ public class SubscriptionRepositoryTest {
 
 
     @Test
-    public void SubscriptionRepository_GetAll_ReturnsMoreThanOneSubscription()
+    public void shouldReturnSubscriptions_whenFindAll()
     {
         User user = User.builder()
                 .firstName("Mario")
@@ -75,7 +75,7 @@ public class SubscriptionRepositoryTest {
     }
 
     @Test
-    public void SubscriptionRepository_FindById_ReturnsSubscription()
+    public void shouldReturnSubscription_whenFindById()
     {
         User user = User.builder()
                 .firstName("Mario")
@@ -96,7 +96,7 @@ public class SubscriptionRepositoryTest {
     }
 
     @Test
-    public void SubscriptionRepository_UpdateSubscription_ReturnsSubscription()
+    public void shouldUpdateSubscription_whenDataChanges()
     {
         User user = User.builder()
                 .firstName("Mario")
@@ -127,7 +127,7 @@ public class SubscriptionRepositoryTest {
     }
 
     @Test
-    public void SubscriptionRepository_SubscriptionDelete_ReturnsSubscriptionIsEmpty()
+    public void shouldDeleteSubscription_whenIdExists()
     {
         User user = User.builder()
                 .firstName("Mario")

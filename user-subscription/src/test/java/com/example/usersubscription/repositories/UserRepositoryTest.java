@@ -19,7 +19,7 @@ public class UserRepositoryTest {
     private UserRepo userRepo;
 
     @Test
-    public void UserRepository_SaveAll_ReturnSavedUser()
+    public void shouldSaveUser_whenDataIsValid()
     {
 
         //Arrange
@@ -40,7 +40,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void UserRepository_GetAll_ReturnMoreThanOneUser()
+    public void shouldReturnAllUsers_whenUsersExist()
     {
         User user = User.builder()
                 .firstName("Mario")
@@ -65,7 +65,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void UserRepository_FindById_ReturnsUser()
+    public void shouldReturnUser_whenUserIdExists()
     {
         User user = User.builder()
                 .firstName("Mario")
@@ -81,7 +81,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void UserRepository_FindByEmail_ReturnsUser()
+    public void shouldReturnUser_whenEmailExists()
     {
         User user = User.builder()
                 .firstName("Mario")
@@ -97,7 +97,7 @@ public class UserRepositoryTest {
 
 
     @Test
-    public void UserRepository_UpdateUser_ReturnsUser()
+    public void shouldUpdateUser_whenDataChanges()
     {
         User user = User.builder()
                 .firstName("Mario")
@@ -118,7 +118,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void UserRepository_UserDelete_ReturnsUserIsEmpty()
+    public void shouldDeleteUser_whenIdExists()
     {
         User user = User.builder()
                 .firstName("Mario")
