@@ -10,7 +10,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -22,7 +22,7 @@ public class UserServiceTest {
     private UserService userService;
 
     @Test
-    public void UserService_CreateUser_ReturnsUser()
+    public void createUser_shoudlReturnsUser()
     {
         User user = User.builder()
                 .firstName("Mario")
