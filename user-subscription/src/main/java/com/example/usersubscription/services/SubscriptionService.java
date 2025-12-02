@@ -6,10 +6,12 @@ import com.example.usersubscription.repositories.SubscriptionRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
 
 @Service
 public class SubscriptionService {
+
 
     @Autowired
     private SubscriptionRepo subscriptionRepo;
@@ -24,5 +26,7 @@ public class SubscriptionService {
     {
         return subscriptionRepo.findByUser(u);
     }
+
+
 
 }

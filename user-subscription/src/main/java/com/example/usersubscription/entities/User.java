@@ -25,6 +25,17 @@ public class User {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Subscription> subscriptions;
 
+    public User() {
+    }
+
+    public User(Long id, String firstName, String lastName, String email, String password, List<Subscription> subscriptions) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.subscriptions = subscriptions;
+    }
 
     public Long getId() {
         return id;

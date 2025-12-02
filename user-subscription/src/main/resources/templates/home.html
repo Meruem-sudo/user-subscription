@@ -21,7 +21,7 @@
         <div>
             <div class="subscription-name" th:text="${sub.name}">Nome</div>
             <div class="subscription-info"
-                 th:text="'Prossimo pagamento: ' + ${sub.frequency}">
+                 th:text="'Prossimo pagamento: ' + ${sub.startDate}">
                 Prossimo pagamento...
             </div>
         </div>

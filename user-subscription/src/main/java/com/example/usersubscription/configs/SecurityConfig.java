@@ -25,8 +25,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
+                .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))// permette i frame della H2 console
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/register","/api/register","/login","/api/login").permitAll()  // <-- accesso libero
+                        .requestMatchers("/","/register","/api/register","/login","/api/login","h2-console/**").permitAll()  // <-- accesso libero
                         .anyRequest().authenticated()                // tutto il resto protetto
                 )
                 .formLogin(form ->form.disable())
@@ -34,27 +35,6 @@ public class SecurityConfig {
                 .build();
     }
 
-
-    /*
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-        http.csrf(customizer -> customizer.disable());
-        http.authorizeHttpRequests(request -> request.anyRequest().authenticated());
-        http.formLogin(Customizer.withDefaults());
-
-
-        return http.build();
-    }
-     */
-
-    /*@Bean
-    public UserDetailsService userDetailsService()
-    {
-        return new InMemoryUserDetailsManager();
-    }
-
-     */
     @Bean
     public AuthenticationProvider authenticationProvider()
     {

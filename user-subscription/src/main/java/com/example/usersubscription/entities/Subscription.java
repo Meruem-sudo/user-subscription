@@ -37,6 +37,19 @@ public class Subscription {
     @JoinColumn(name = "user_id",nullable = false)
     private User user;
 
+    public Subscription() {
+    }
+
+    public Subscription(Long id, String name, Double price, Frequency frequency, LocalDate startDate, LocalDate endDate, User user) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.frequency = frequency;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.user = user;
+    }
+
     public Long getId() {
         return id;
     }
@@ -93,6 +106,30 @@ public class Subscription {
         this.endDate = endDate;
     }
 
+    public void calculateNextPaymentDate ()
+    {
+        LocalDate tomorrow = LocalDate.now().plusDays(1);
+        LocalDate now = LocalDate.now();
+        LocalDate next_month = LocalDate.now().plusMonths(1);
+
+        if(!tomorrow.equals(startDate))
+        {
+            if (now.equals(startDate.plusMonths(1)))
+            {
+                setStartDate(next_month);
+                setEndDate(next_month.plusMonths(1));
+            }
+
+        }
+        else {
+
+            System.out.println("Manda email");
+            /// TODO
+            /// Manda email
+        }
+
+    }
+
     @Override
     public String toString() {
         return "Subscription{" +
@@ -104,4 +141,6 @@ public class Subscription {
                 ", endDate=" + endDate +
                 '}';
     }
+
+
 }
