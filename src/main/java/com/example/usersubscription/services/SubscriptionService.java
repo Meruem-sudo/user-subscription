@@ -36,6 +36,11 @@ public class SubscriptionService {
         return subscriptionRepo.findByUser(u);
     }
 
+    public void deleteSubscription(Long id)
+    {
+        subscriptionRepo.deleteById(id);
+    }
+
 
 
 }

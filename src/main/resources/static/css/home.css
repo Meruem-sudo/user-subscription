@@ -1,3 +1,4 @@
+/* ===== BODY ===== */
 body {
     margin: 0;
     padding: 0;
@@ -6,7 +7,7 @@ body {
     color: #1b1b1b;
 }
 
-/* NAVBAR */
+/* ===== HEADER / NAVBAR ===== */
 header {
     padding: 20px 0;
     background: #ffffff;
@@ -22,23 +23,37 @@ h1 {
     font-weight: 600;
 }
 
+/* ===== CONTAINER ===== */
 .container {
     padding: 24px;
-    padding-bottom: 120px;
+    padding-bottom: 120px; /* spazio per la footbar */
     max-width: 900px;
     margin: auto;
 }
 
-.subscription-card {
-    background: #ffffff;
-    border-radius: 14px;
-    padding: 18px 22px;
+/* ===== SUBSCRIPTION CARD ===== */
+.subscription-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* card a sinistra, delete a destra */
     margin-bottom: 16px;
+}
+
+.subscription-card {
+    flex: 1; /* occupa tutto lo spazio disponibile */
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 18px 22px;
     border: 1px solid #e6e9ef;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    border-radius: 14px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.subscription-details {
+    display: flex;
+    flex-direction: column;
 }
 
 .subscription-name {
@@ -57,7 +72,24 @@ h1 {
     color: #2563eb;
 }
 
-/* FOOTBAR */
+.delete-btn {
+    background-color: #ff4d4f; /* rosso acceso */
+    border: none;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 12px;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.delete-btn:hover {
+    background-color: #d9363e;
+    transform: scale(1.05);
+}
+
+/* ===== FOOTBAR ===== */
 .footbar {
     position: fixed;
     bottom: 0;
@@ -81,6 +113,7 @@ h1 {
     text-decoration: none;
     color: #6b7280;
     font-size: 14px;
+    transition: color 0.2s;
 }
 
 .footbar-btn.selected {

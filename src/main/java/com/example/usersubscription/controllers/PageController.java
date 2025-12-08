@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
@@ -98,6 +99,12 @@ public class PageController {
         User user = (User) authentication.getPrincipal();
         subscription.setUser(user);
         subscriptionService.addSubscription(subscription);
-        return "new_subscription";
+        return "redirect:home";
+    }
+    @PostMapping("/delete/{id}")
+    public String deleteSubscription(@PathVariable Long id)
+    {
+        subscriptionService.deleteSubscription(id);
+        return "home";
     }
 }

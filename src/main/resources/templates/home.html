@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>I miei abbonamenti</title>
-
-
     <link rel="stylesheet" href="/css/home.css">
 </head>
-
 <body>
 
 <header>
@@ -17,34 +14,34 @@
 
 <div class="container">
 
-    <div th:each="sub : ${subscriptions}" class="subscription-card">
-        <div>
-            <div class="subscription-name" th:text="${sub.name}">Nome</div>
-            <div class="subscription-info"
-                 th:text="'Prossimo pagamento: ' + ${sub.endDate}">
-                Prossimo pagamento...
+    <div th:each="sub : ${subscriptions}" class="subscription-wrapper">
+        <!-- CARD PRINCIPALE -->
+        <div class="subscription-card">
+            <div class="subscription-details">
+                <div class="subscription-name" th:text="${sub.name}">Nome</div>
+                <div class="subscription-info"
+                     th:text="'Prossimo pagamento: ' + ${sub.endDate}">Prossimo pagamento...</div>
             </div>
+            <div class="price" th:text="'€ ' + ${sub.price}">€ 0.00</div>
         </div>
 
-        <div class="price" th:text="'€ ' + ${sub.price}">
-            € 0.00
-        </div>
+        <form th:action="@{/delete/{id}(id=${sub.id})}" method="post" style="display:inline">
+            <button type="submit" class="delete-btn">🗑️</button>
+        </form>
     </div>
 
 </div>
 
+<!-- FOOTBAR -->
 <div class="footbar">
-
     <a class="footbar-btn selected" href="/home">
         <div class="icon">📅</div>
         I miei abbonamenti
     </a>
-
     <a class="footbar-btn" href="/new-subscription">
         <div class="icon">➕</div>
         Aggiungi
     </a>
-
 </div>
 
 </body>
