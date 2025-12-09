@@ -25,9 +25,13 @@
             <div class="price" th:text="'€ ' + ${sub.price}">€ 0.00</div>
         </div>
 
-        <form th:action="@{/delete/{id}(id=${sub.id})}" method="post" style="display:inline">
-            <button type="submit" class="delete-btn">🗑️</button>
-        </form>
+        <div class="subscription-actions">
+            <a th:href="@{/edit/{id}(id=${sub.id})}" class="edit-btn">✏️</a>
+
+            <form th:action="@{/delete/{id}(id=${sub.id})}" method="post">
+                <button type="submit" class="delete-btn">🗑️</button>
+            </form>
+        </div>
     </div>
 
 </div>

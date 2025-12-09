@@ -89,8 +89,9 @@ public class PageController {
 
 
     @GetMapping("/new-subscription")
-    public String newSubscription()
+    public String newSubscription(Model model)
     {
+        model.addAttribute("subscription", new Subscription());
         return "new_subscription";
     }
     @PostMapping("/add-subscription")
@@ -106,5 +107,13 @@ public class PageController {
     {
         subscriptionService.deleteSubscription(id);
         return "home";
+    }
+    @GetMapping("/edit/{id}")
+    public String updateSubscription(@PathVariable Long id, Model model)
+    {
+        Subscription subscription = subscriptionService.getSingleSubscription(id);
+        model.addAttribute("subscription",subscription);
+        return "new_subscription";
+
     }
 }

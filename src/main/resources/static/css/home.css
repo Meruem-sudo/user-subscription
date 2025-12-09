@@ -34,13 +34,14 @@ h1 {
 /* ===== SUBSCRIPTION CARD ===== */
 .subscription-wrapper {
     display: flex;
-    align-items: center;
-    justify-content: space-between; /* card a sinistra, delete a destra */
+    align-items: stretch; /* qui stretch invece di center */
+    justify-content: space-between;
     margin-bottom: 16px;
+    gap: 12px;
 }
 
 .subscription-card {
-    flex: 1; /* occupa tutto lo spazio disponibile */
+    flex: 1;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -72,20 +73,43 @@ h1 {
     color: #2563eb;
 }
 
+/* ===== BUTTONS AS SQUARE ICONS HORIZONTAL ===== */
+.subscription-actions {
+    display: flex;
+    gap: 8px;
+    align-items: stretch; /* stretch anche qui */
+}
+
+.edit-btn,
 .delete-btn {
-    background-color: #ff4d4f; /* rosso acceso */
-    border: none;
-    color: white;
-    padding: 10px 14px;
-    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: 1px solid #e6e9ef;
+    background-color: #ffffff;
     cursor: pointer;
-    font-size: 16px;
-    margin-left: 12px;
     transition: background-color 0.2s, transform 0.1s;
+    height: 100%; /* altezza della card */
+    width: 70px;
+    font-size: 24px;
+}
+
+.edit-btn {
+    color: #2563eb; /* blu matita */
+}
+
+.delete-btn {
+    color: #dc3545; /* rosso cestino */
+}
+
+.edit-btn:hover {
+    background-color: #e0f0ff; /* leggero blu al passaggio */
+    transform: scale(1.05);
 }
 
 .delete-btn:hover {
-    background-color: #d9363e;
+    background-color: #ffe5e5; /* leggero rosso al passaggio */
     transform: scale(1.05);
 }
 
