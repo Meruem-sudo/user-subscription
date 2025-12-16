@@ -106,29 +106,6 @@ public class Subscription {
         this.endDate = endDate;
     }
 
-    public void calculateNextPaymentDate ()
-    {
-        LocalDate tomorrow = LocalDate.now().plusDays(1);
-        LocalDate now = LocalDate.now();
-        LocalDate next_month = LocalDate.now().plusMonths(1);
-
-        if(!tomorrow.equals(startDate))
-        {
-            if (now.equals(startDate.plusMonths(1)))
-            {
-                setStartDate(next_month);
-                setEndDate(next_month.plusMonths(1));
-            }
-
-        }
-        else {
-
-            System.out.println("Manda email");
-            /// TODO
-            /// Manda email
-        }
-
-    }
 
     @Override
     public String toString() {
