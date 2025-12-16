@@ -1,5 +1,0 @@
-mail:
-  from: ${EMAIL_FROM}
-  to: ${EMAIL_TO}
-  host: ${EMAIL_HOST:smtp.gmail.com}
-  port: ${EMAIL_PORT:587}

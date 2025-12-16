@@ -13,5 +13,6 @@ public interface SubscriptionRepo extends JpaRepository <Subscription,Long> {
 
     List<Subscription> findByUser(User user);
     List<Subscription> findByEndDateBefore(LocalDate today);
+    List<Subscription> findByEndDate(LocalDate today);
 
 }

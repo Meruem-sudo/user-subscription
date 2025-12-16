@@ -1,17 +1,10 @@
 package com.example.usersubscription.services;
 
-import com.example.usersubscription.entities.Frequency;
 import com.example.usersubscription.entities.Subscription;
 import com.example.usersubscription.entities.User;
 import com.example.usersubscription.exceptions.FrequencyException;
 import com.example.usersubscription.repositories.SubscriptionRepo;
-import com.example.usersubscription.smtp.MailProperties;
-import com.example.usersubscription.smtp.PropertiesSmtp;
-import com.example.usersubscription.smtp.SmtpAuthenticator;
-import jakarta.mail.Message;
-import jakarta.mail.MessagingException;
-import jakarta.mail.Session;
-import jakarta.mail.Transport;
+import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,26 +13,18 @@ import org.springframework.stereotype.Service;
 
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Properties;
 
 @Service
 public class SubscriptionService {
 
 
-    private final PropertiesSmtp propertiesSmtp;
-    private final SmtpAuthenticator authenticator;
-    private final MailProperties mailProperties;
-
     @Autowired
     private SubscriptionRepo subscriptionRepo;
 
-    public SubscriptionService(PropertiesSmtp propertiesSmtp,
-                               SmtpAuthenticator authenticator,
-                               MailProperties mailProperties) {
-        this.propertiesSmtp = propertiesSmtp;
-        this.authenticator = authenticator;
-        this.mailProperties = mailProperties;
-    }
+
 
     public Subscription addSubscription(Subscription subscription)
     {
@@ -75,23 +60,90 @@ public class SubscriptionService {
         return subscriptionRepo.save(subscription);
     }
 
-    @Transactional
+
+    @Transactional(readOnly = true)
+    public List<Subscription> getExpiringSubscriptions() {
+        return subscriptionRepo.findByEndDate(LocalDate.now().plusDays(1));
+    }
+
+
+    public List<Subscription> getExpiredSubscriptions() {
+        return subscriptionRepo.findByEndDate(LocalDate.now());
+    }
+
+
+
+    public void sendExpirationEmails(List<Subscription> subscriptions) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+
+        String to = System.getenv("EMAIL_TO");
+        String from = System.getenv("EMAIL_FROM");
+        final String username = System.getenv("EMAIL_FROM");
+        final String password = System.getenv("EMAIL_PASSWORD");
+        String host = "smtp.gmail.com";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth",true);
+        props.put("mail.smtp.starttls.enable",true);
+        props.put("mail.smtp.host",host);
+        props.put("mail.smtp.port","587");
+
+        Authenticator authenticator = new Authenticator() {
+
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username,password);
+            }
+        };
+        Session session = Session.getInstance(props, authenticator);
+
+        for (int i = 0; i<subscriptions.size();i++) {
+
+            Subscription tempSubscription = subscriptions.get(i);
+            String formattedDate = tempSubscription.getEndDate().format(formatter);
+            String subject = "Scadenza abbonamento a " + tempSubscription.getName();
+            String content = "Abbonamento a " + tempSubscription.getName() + " in scadenza il giorno " + formattedDate
+                    + " al costo di " + tempSubscription.getPrice() + "€";
+
+            try {
+
+                Message message = new MimeMessage(session);
+
+                message.setFrom(new InternetAddress(from));
+
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+
+                message.setSubject(subject);
+
+                message.setContent(content, "text/plain; charset=UTF-8");
+
+                Transport.send(message);
+                System.out.println("Email inviata correttamente");
+            } catch (MessagingException e) {
+                System.out.println(e);
+            }
+        }
+
+
+
+    }
     public void checkExpiredSubscriptions() throws MessagingException {
+        List<Subscription> subscriptions = getExpiringSubscriptions();
+        sendExpirationEmails(subscriptions);
+    }
 
+    @Transactional
+    public void updateEndDateExpiredSubscriptions() {
+        List<Subscription> expiredSubscriptions = getExpiredSubscriptions();
 
-        LocalDate now = LocalDate.now();
-        System.out.println(subscriptionRepo.findByEndDateBefore(now));
-
-        Session session = Session.getInstance(propertiesSmtp.getProperties(), authenticator);
-
-        Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(mailProperties.getFrom()));
-        message.setRecipients(Message.RecipientType.TO,
-                InternetAddress.parse(mailProperties.getTo()));
-        message.setSubject("Test");
-        message.setText("Corpo del messaggio");
-
-        Transport.send(message);
+        for (Subscription subscription : expiredSubscriptions) {
+            subscription.setEndDate(switch (subscription.getFrequency()) {
+                case WEEKLY -> subscription.getEndDate().plusWeeks(1);
+                case MONTHLY -> subscription.getEndDate().plusMonths(1);
+                case YEARLY -> subscription.getEndDate().plusYears(1);
+            });
+        }
     }
 
 }

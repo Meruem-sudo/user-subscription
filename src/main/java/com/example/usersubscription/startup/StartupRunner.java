@@ -19,6 +19,7 @@ public class StartupRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         subscriptionService.checkExpiredSubscriptions();
+        subscriptionService.updateEndDateExpiredSubscriptions();
 
     }
 }
