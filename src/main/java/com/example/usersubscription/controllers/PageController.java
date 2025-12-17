@@ -2,6 +2,7 @@ package com.example.usersubscription.controllers;
 
 import com.example.usersubscription.entities.Subscription;
 import com.example.usersubscription.entities.User;
+import com.example.usersubscription.exceptions.ValidationException;
 import com.example.usersubscription.services.SubscriptionService;
 import com.example.usersubscription.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -95,18 +96,30 @@ public class PageController {
         return "new_subscription";
     }
     @PostMapping("/add-subscription")
-    public String addSubscription(@ModelAttribute Subscription subscription, Authentication authentication)
-    {
+    public String addSubscription(@ModelAttribute Subscription subscription,
+                                  Authentication authentication,
+                                  Model model) {
+
         User user = (User) authentication.getPrincipal();
         subscription.setUser(user);
-        subscriptionService.addSubscription(subscription);
-        return "redirect:home";
+
+        try {
+            subscriptionService.validateStartDate(subscription);
+            subscriptionService.addSubscription(subscription);
+            return "redirect:/home";
+        }catch (ValidationException e){
+            model.addAttribute("subscription", subscription);
+            model.addAttribute("error",
+                    e.getMessage());
+            return "new_subscription";
+        }
     }
+
     @PostMapping("/delete/{id}")
     public String deleteSubscription(@PathVariable Long id)
     {
         subscriptionService.deleteSubscription(id);
-        return "home";
+        return "redirect:/home";
     }
     @GetMapping("/edit/{id}")
     public String updateSubscription(@PathVariable Long id, Model model)

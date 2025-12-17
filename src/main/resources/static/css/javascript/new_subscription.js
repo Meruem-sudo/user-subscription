@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const price = parseFloat(priceInput.value);
         const frequency = frequencyInput.value;
         const startDate = startDateInput.value ? new Date(startDateInput.value) : null;
+
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
@@ -43,6 +44,30 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        const minDate = new Date(today);
 
+        switch (frequency) {
+            case "WEEKLY":
+                minDate.setDate(today.getDate() - 7);
+                break;
+            case "MONTHLY":
+                minDate.setMonth(today.getMonth() - 1);
+                break;
+            case "YEARLY":
+                minDate.setFullYear(today.getFullYear() - 1);
+                break;
+        }
+
+        if (startDate > today) {
+            alert("La data di inizio non può essere futura.");
+            event.preventDefault();
+            return;
+        }
+
+        if (startDate < minDate) {
+            alert("La data di inizio non è valida per la frequenza selezionata.");
+            event.preventDefault();
+            return;
+        }
     });
 });

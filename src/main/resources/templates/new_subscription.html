@@ -50,6 +50,9 @@
         </div>
 
         <button class="save-btn" type="submit">Salva abbonamento</button>
+        <div th:if="${error}" class="error-message">
+            <p th:text="${error}"></p>
+        </div>
     </form>
 
 </div>

@@ -3,6 +3,7 @@ package com.example.usersubscription.services;
 import com.example.usersubscription.entities.Subscription;
 import com.example.usersubscription.entities.User;
 import com.example.usersubscription.exceptions.FrequencyException;
+import com.example.usersubscription.exceptions.ValidationException;
 import com.example.usersubscription.repositories.SubscriptionRepo;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
@@ -25,6 +26,28 @@ public class SubscriptionService {
     private SubscriptionRepo subscriptionRepo;
 
 
+
+    public void validateStartDate(Subscription subscription) {
+        LocalDate today = LocalDate.now();
+        LocalDate minDate;
+
+        switch (subscription.getFrequency()) {
+            case WEEKLY -> minDate = today.minusWeeks(1);
+            case MONTHLY -> minDate = today.minusMonths(1);
+            case YEARLY -> minDate = today.minusYears(1);
+            default -> throw new IllegalArgumentException("Frequenza non valida");
+        }
+
+        if (subscription.getStartDate().isAfter(today)) {
+            throw new ValidationException("La data di inizio non può essere futura");
+        }
+
+        if (subscription.getStartDate().isBefore(minDate)) {
+            throw new ValidationException(
+                    "La data di inizio non è valida per la frequenza selezionata"
+            );
+        }
+    }
 
     public Subscription addSubscription(Subscription subscription)
     {
