@@ -11,7 +11,7 @@ L'applicazione è stata progettata per garantire sicurezza e integrità dei dati
 
 Prima di eseguire l'applicazione, assicurati di avere:
 
--Java 17 o superiore
+-Java 21
 
 -Maven
 
@@ -28,7 +28,7 @@ java -version
 
 Dovresti vedere:
 
-openjdk version "17.0.x" 2025-xx-xx
+openjdk version "21.0.x" 2025-xx-xx
 
 
 # macOS
